@@ -1,0 +1,39 @@
+
+<h1> Flight Booker </h1>
+<%= form_with url: '/flights', method:"get" do |form| %>
+    <div class='field'>
+    <%= form.label(:departure_airport, "Departure airport:") %>
+    <%= form.select(:departure_airport, options_for_select(@airports), include_blank: true) %>
+    </div>
+    <div class='field'>
+    <%= form.label(:arrival_airport, "Arrival airport:") %>
+    <%= form.select(:arrival_airport, options_for_select(@airports), include_blank: true) %>
+    </div>
+    <div class='field'>
+    <%= form.label(:start, "Travel date:") %>
+    <%= form.select(:start, options_for_select(@dates), include_blank: true) %>
+    </div>
+    <div class='field'>
+    <%= form.label(:number_of_passengers, "Number of passengers:") %>
+    <%= form.select(:number_of_passengers, options_for_select(1..4))%>
+    </div>
+    <%= form.submit('Search') %>
+<% end %>
+<table>
+    <tr>
+        <td> Flight ID </td>
+        <td> Departure </td>
+        <td> Arrival </td>
+        <td> Start </td>
+        <td> Duration </td>
+    </tr>
+    <% @flights.each do |flight| %>
+    <tr>
+        <td> <%= flight.id %> </td>
+        <td> <%= flight.departure_airport.code %> </td>
+        <td> <%= flight.arrival_airport.code %> </td>
+        <td> <%= flight.start %> </td>
+        <td> <%= flight.flight_duration %> </td>
+    </tr>
+    <% end %>
+</table>

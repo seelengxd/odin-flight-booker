@@ -1,0 +1,11 @@
+<h1> Make a booking </h1>
+<% form_with model: @booking %>
+    <% @number_of_passengers.to_i.times do %>
+        <%= form.fields_for Passenger.new do |p| %>
+            <%= p.label :name %>
+            <%= p.text_field :name %>
+            <%= p.label :email %>
+            <%= p.email_field :email %>
+        <% end %>
+    <% end %>
+<% end %>

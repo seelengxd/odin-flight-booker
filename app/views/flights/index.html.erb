@@ -19,21 +19,39 @@
     </div>
     <%= form.submit('Search') %>
 <% end %>
-<table>
-    <tr>
-        <td> Flight ID </td>
-        <td> Departure </td>
-        <td> Arrival </td>
-        <td> Start </td>
-        <td> Duration </td>
-    </tr>
-    <% @flights.each do |flight| %>
-    <tr>
-        <td> <%= flight.id %> </td>
-        <td> <%= flight.departure_airport.code %> </td>
-        <td> <%= flight.arrival_airport.code %> </td>
-        <td> <%= flight.start %> </td>
-        <td> <%= flight.flight_duration %> </td>
-    </tr>
-    <% end %>
-</table>
+
+<% if @passengers.zero? %>
+<h2> Search first! </h2>
+<% else %>
+<%= form_with url: new_booking_path, method:"get" do |form| %>
+    <%= hidden_field_tag :number_of_passengers, @passengers %>
+    <table>
+        <tr>
+            <td> Flight ID </td>
+            <td> Departure </td>
+            <td> Arrival </td>
+            <td> Start </td>
+            <td> Duration </td>
+            <td> Chosen Flight </td>
+        </tr>
+        <% if @flights.empty? %>
+        <tr>
+            <td colspan="5">No flights match your criteria</td>
+        </tr>
+        <% else %>
+            <% @flights.each do |flight| %>
+            <tr>
+                <td> <%= flight.id %> </td>
+                <td> <%= flight.departure_airport.code %> </td>
+                <td> <%= flight.arrival_airport.code %> </td>
+                <td> <%= flight.start %> </td>
+                <td> <%= flight.flight_duration %> </td>
+                <td> <%= form.radio_button :flight_id, flight.id%> </td>
+            </tr>
+            <% end %>
+        <% end %>
+    </table>
+
+    <%= form.submit 'Pick Flight' %>
+<% end %>
+<% end %>

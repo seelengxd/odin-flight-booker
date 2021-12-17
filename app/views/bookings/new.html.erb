@@ -1,11 +1,44 @@
 <h1> Make a booking </h1>
-<% form_with model: @booking %>
-    <% @number_of_passengers.to_i.times do %>
-        <%= form.fields_for Passenger.new do |p| %>
-            <%= p.label :name %>
-            <%= p.text_field :name %>
-            <%= p.label :email %>
-            <%= p.email_field :email %>
-        <% end %>
+<table>
+    <tr>
+        <td colspan="2"> Chosen Flight </td>
+    </tr>
+    <tr>
+        <td> Flight ID </td>
+        <td> <%= @flight.id %> </td>
+    </tr>
+    <tr>
+        <td> Arrival Airport </td>
+        <td> <%= @flight.arrival_airport.code %> </td>
+    </tr>
+    <tr>
+        <td> Departure Airport </td>
+        <td> <%= @flight.departure_airport.code %> </td>
+    </tr>
+    <tr>
+        <td> Start </td>
+        <td> <%= @flight.start %> </td>
+    </tr>
+    <tr>
+        <td> Flight Duration </td>
+        <td> <%= @flight.flight_duration / 60 %> h <%= @flight.flight_duration % 60 %> min </td>
+    </tr>
+
+</table>
+<%= form_with model: @booking do |form|%>
+    <%= form.hidden_field :flight_id %>
+    <%= form.fields_for :passengers do |p| %>
+        <h2> Passenger </h2>
+        <div class="field">
+        <%= p.label :name %>
+        <%= p.text_field :name %>
+        </div>
+        <div class="field">
+        <%= p.label :email %>
+        <%= p.email_field :email %>
+        </div>
+        <br>
     <% end %>
+    
+    <%= form.submit %>
 <% end %>
